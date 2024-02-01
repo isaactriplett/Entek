@@ -14,7 +14,7 @@ from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)     # Configur
 #For a file with two columns, the first being voltage and the second current in mA(not mA/cm^2)
 
 def Nyquist_grapher(const #Normalizing constant to turn current input into current density output if desired
-               ,filenames,title,xlimits,yunits,ylimits,txt):
+               ,filenames,title,xlimits,yunits,ylimits,txt,legend):
     
     fig = plt.figure(figsize=(8, 6))    # Create a graph 'fig' which has 4 inches in width and 6 inches in height.
     ax = fig.add_subplot(111)           # Create a subplot 'ax' in the figure 'fig'. 
@@ -57,7 +57,7 @@ def Nyquist_grapher(const #Normalizing constant to turn current input into curre
                    usecols=(0,1,2))
                      # Read data from a file scan1.csv and skip the first row.
         elif txt == True:
-            datalistX[i],datalistY1[i],datalistY2[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Echem Project/Data/txt files/Week 3/" + filenames[i] + ".txt", skiprows=1, unpack=True,
+            datalistX[i],datalistY1[i],datalistY2[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Echem Project/Data/txt files/Week 4/" + filenames[i] + ".txt", skiprows=1, unpack=True,
                    usecols=(0,1,2))
         ax.plot(datalistY1[i], datalistY2[i]/const, '.', color=colorlist[i],label=filenames[i])
         i = i + 1
@@ -75,7 +75,8 @@ def Nyquist_grapher(const #Normalizing constant to turn current input into curre
         ax.set_ylim(ylimits[0],ylimits[1])   # set the range of the y-axis
     #ax.set_xlabel('Potential, V')   # set the label of the x-axis
     #ax.set_ylabel('Current, mA/cm^2') # set the label of the y-axis
-    #ax.legend(loc='upper left')       # place the legend at the 'upper left'
+    if legend == True:
+        ax.legend(loc='lower right')       # place the legend at the 'upper left'
     ax.xaxis.set_minor_locator(MultipleLocator(10))   # add minor ticks for the x-axis
     ax.yaxis.set_minor_locator(AutoMinorLocator())    # add minor ticks for the y-axis
     ax.xaxis.grid(True, which='both') # add grids to the x-axis for both major and minor ticks
