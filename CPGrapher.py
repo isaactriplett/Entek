@@ -14,7 +14,7 @@ from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)     # Configur
 #same general layout as Nyquist grapher. Make sure to replace my file path with your own.
 
 def CP_grapher(filenames,title,xlimits,ylimits,txt,legend,gridlines,xlabel,ylabel,xcolumn,
-                   ycolumn): #txt is true if dealing with a txt file, and false if dealing with a csv
+                   ycolumn,cutoff,const): #txt is true if dealing with a txt file, and false if dealing with a csv
     #xlimits and ylimits set custom limits. Set to None if you want autoscaling.
     #legend is True if there is a legend.
     #gridlines is True if there are gridlines
@@ -45,18 +45,23 @@ def CP_grapher(filenames,title,xlimits,ylimits,txt,legend,gridlines,xlabel,ylabe
     datalistY=[Y1,Y2,Y3,Y4,Y5,Y6,Y7]
 
     i=0
+    
+
     while(i < len(filenames)):
         if txt == False:
             datalistX[i],datalistY[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Lab 2/Project 1/Week 2/" + filenames[i] + ".csv", skiprows=1, unpack=True,delimiter=',',
                                                      usecols=(xcolumn,ycolumn))
 
         elif txt == True:
-            datalistX[i],datalistY[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Echem Project/Data/txt files/2_12_24 Cycle/" + filenames[i] + ".txt", skiprows=1, unpack=True
+            datalistX[i],datalistY[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Echem Project/Data/txt files/3 cycles/" + filenames[i] + ".txt", skiprows=1, unpack=True
                 ,usecols=(xcolumn,ycolumn))
-            
-        ax.plot(datalistX[i]-datalistX[i][0], datalistY[i], '.', color=colorlist[i],label=filenames[i])
+        
+        if cutoff == None:
+            cutoff = len(datalistX[i])
+        ax.plot((datalistX[i][0:cutoff]-datalistX[i][0])/const, (datalistY[i][0:cutoff]), '.', color=colorlist[i],label=filenames[i])
         #normalizes time and reports voltage absolute value
-
+        average_value = np.average(datalistY[i][0:cutoff])
+        max_time = np.max(datalistX[i][cutoff])
         
         i = i + 1
         
@@ -78,3 +83,7 @@ def CP_grapher(filenames,title,xlimits,ylimits,txt,legend,gridlines,xlabel,ylabe
         ax.set_title(title)
 
     plt.show()   # display 'ax'
+    print(average_value)
+    print(max_time)
+    if cutoff != None:
+        print(datalistX[i-1][cutoff])
