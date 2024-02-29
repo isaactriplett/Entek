@@ -18,8 +18,8 @@ def CA_grapher_normal(const #Normalizing constant to turn current input into cur
     
     fig = plt.figure(figsize=(8, 6))    # Create a graph 'fig' which has 4 inches in width and 6 inches in height.
     ax = fig.add_subplot(111)           # Create a subplot 'ax' in the figure 'fig'. 
-    ax.set_xlabel('time (s)')   # set the label of the x-axis
-    ax.set_ylabel('Current ' + yunits) # set the label of the y-axis
+    ax.set_xlabel('time (s)',fontweight = 'bold')   # set the label of the x-axis
+    ax.set_ylabel('Current ' + yunits,fontweight = 'bold') # set the label of the y-axis
     
     X1 = []
     X2 = []
@@ -45,7 +45,7 @@ def CA_grapher_normal(const #Normalizing constant to turn current input into cur
                    usecols=(2,5))
                      # Read data from a file scan1.csv and skip the first row.
         elif txt == True:
-            datalistX[i],datalistY[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Echem Project/Data/txt files/Week 5/" + filenames[i] + ".txt", skiprows=1, unpack=True,
+            datalistX[i],datalistY[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Echem Project/Data/txt files/2_27_24/" + filenames[i] + ".txt", skiprows=1, unpack=True,
                    usecols=(0,1))
         ax.plot(datalistX[i], datalistY[i]/const, '.', color=colorlist[i],label=filenames[i])
         i = i + 1

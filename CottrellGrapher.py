@@ -19,8 +19,8 @@ def Cottrell_fit(const #Normalizing constant to turn current input into current 
     
     fig = plt.figure(figsize=(8, 6))    # Create a graph 'fig' which has 4 inches in width and 6 inches in height.
     ax = fig.add_subplot(111)           # Create a subplot 'ax' in the figure 'fig'. 
-    ax.set_xlabel('time^(-1/2)')   # set the label of the x-axis
-    ax.set_ylabel('Current ' + yunits) # set the label of the y-axis
+    ax.set_xlabel('time^(-1/2)',fontweight = 'bold')   # set the label of the x-axis
+    ax.set_ylabel('Current ' + yunits,fontweight = 'bold') # set the label of the y-axis
     
     X1 = []
     X2 = []
@@ -47,17 +47,33 @@ def Cottrell_fit(const #Normalizing constant to turn current input into current 
                    usecols=(2,5))
                      # Read data from a file scan1.csv and skip the first row.
         elif txt == True:
-            datalistX[i],datalistY[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Echem Project/Data/txt files/Week 5/" + filenames[i] + ".txt", skiprows=1, unpack=True,
+            datalistX[i],datalistY[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Echem Project/Data/txt files/2_27_24/" + filenames[i] + ".txt", skiprows=1, unpack=True,
                    usecols=(0,1))
         i = i + 1
         
         #fitting is also within loop for easy multi-fit functionality
-        newX = 1/(datalistX[0]**0.5)
-        newY = datalistY[0]/const
+        newX1 = 1/(datalistX[0]**0.5)
+        newY1 = datalistY[0]/const
         
-        ax.plot(newX, newY, '.', color='g',label=filenames[0])
+        n = 0
+        
+        if xlimits != None:
+            while n<len(newX1):
+                if newX1[n]<xlimits[1]:
+                    newX2 = newX1[n:]
+                    newY2 = newY1[n:]
+                    n = len(newX1)
+                n = n + 1
+        else:
+            newX2 = newX1
+            newY2 = newY1
+        #print(newX2)
+        #print(newX1[n-2])
+        #print(newX1)
+        
+        ax.plot(newX2, newY2, '.', color='g',label=filenames[0])
     
-        z = np.polyfit(newX,newY,1) #obtain linear fit
+        z = np.polyfit(newX2,newY2,1) #obtain linear fit
     
         zp = xp*z[0] + z[1] #y-axis data for fit that will be graphed
     
